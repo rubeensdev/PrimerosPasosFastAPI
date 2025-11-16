@@ -6,6 +6,6 @@ app = FastAPI()
 def read_root():
     return {"Endpoint para ver si funciona" : "Funcionando"}
 
-@app.get("/{nombre}")r
+@app.get("/{nombre}")
 def nombre(nombre: str):
     return {"Endpoint nombre dice " : f" Hola {nombre} ! "}
