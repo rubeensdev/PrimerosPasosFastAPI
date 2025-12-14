@@ -1,0 +1,9 @@
+curl -X GET http://127.0.0.1:8000/peliculas
+
+curl -X GET http://127.0.0.1:8000/buscarPeliculas/1
+
+curl -X POST http://127.0.0.1:8000/crearPelicula  -H "Content-Type: application/json"  -d '{"titulo": "Torrente: el brazo tonto de la ley", "genero": "Comedia", "ano": 1998}'
+
+curl -X PUT http://127.0.0.1:8000/actualizaPelicula/38 -H "Content-Type: application/json" -d '{"titulo": "Torrente2: Misión en Marbella", "genero": "Ciencia ficción", "ano": 2001}'
+
+curl -X DELETE http://127.0.0.1:8000/borrarPelicula/38
