@@ -107,12 +107,12 @@ else:
     # GET todas las películas (datos de prueba)
     @app.get("/peliculas")
     def listar_peliculas():
-        return get_fake_peliculas()
+        return get_prueba_peliculas()
 
     # GET película por ID (datos de prueba)
     @app.get("/buscarPeliculas/{pelicula_id}")
     def obtener_pelicula(pelicula_id: int):
-        peliculas = get_fake_peliculas()
+        peliculas = get_prueba_peliculas()
         pelicula = next((p for p in peliculas if p["idPelicula"] == pelicula_id), None)
         if not pelicula:
             raise HTTPException(status_code=404, detail="Pelicula no encontrada")
@@ -121,7 +121,7 @@ else:
     # POST crear película (datos de prueba, solo agrega a la lista)
     @app.post("/crearPelicula")
     def crear_pelicula(pelicula: dict):
-        peliculas = get_fake_peliculas()
+        peliculas = get_prueba_peliculas()
         nueva_pelicula = {"idPelicula": len(peliculas) + 1, **pelicula}
         peliculas.append(nueva_pelicula)
         return nueva_pelicula
@@ -129,7 +129,7 @@ else:
     # PUT actualizar película (datos de prueba)
     @app.put("/actualizaPelicula/{pelicula_id}")
     def actualizar_pelicula(pelicula_id: int, pelicula: dict):
-        peliculas = get_fake_peliculas()
+        peliculas = get_prueba_peliculas()
         index = next((i for i, p in enumerate(peliculas) if p["idPelicula"] == pelicula_id), None)
         if index is None:
             raise HTTPException(status_code=404, detail="Pelicula no encontrada")
@@ -139,7 +139,7 @@ else:
     # DELETE película (datos de prueba)
     @app.delete("/borrarPelicula/{pelicula_id}")
     def borrar_pelicula(pelicula_id: int):
-        peliculas = get_fake_peliculas()
+        peliculas = get_prueba_peliculas()
         index = next((i for i, p in enumerate(peliculas) if p["idPelicula"] == pelicula_id), None)
         if index is None:
             raise HTTPException(status_code=404, detail="Pelicula no encontrada")
