@@ -35,6 +35,14 @@ if USE_DB:
         finally:
             db.close()
 
+# Datos de prueba
+def get_prueba_peliculas():
+    return [
+        {"idPelicula": 1, "titulo": "Pelicula 1", "genero": "Acción", "anio": 2021},
+        {"idPelicula": 2, "titulo": "Pelicula 2", "genero": "Comedia", "anio": 2020},
+        {"idPelicula": 3, "titulo": "Pelicula 3", "genero": "Drama", "anio": 2022},
+    ]
+
 # Rutas de prueba (si no hay DB, solo esta raíz funciona)
 @app.get("/")
 def raiz():
@@ -93,3 +101,55 @@ if USE_DB:
         if not db_usuario or db_usuario.password != usuario.password:
             raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")
         return {"mensaje": "Correcto"}
+
+# Si no usamos base de datos, devolver datos de prueba
+else:
+    # GET todas las películas (datos de prueba)
+    @app.get("/peliculas")
+    def listar_peliculas():
+        return get_fake_peliculas()
+
+    # GET película por ID (datos de prueba)
+    @app.get("/buscarPeliculas/{pelicula_id}")
+    def obtener_pelicula(pelicula_id: int):
+        peliculas = get_fake_peliculas()
+        pelicula = next((p for p in peliculas if p["idPelicula"] == pelicula_id), None)
+        if not pelicula:
+            raise HTTPException(status_code=404, detail="Pelicula no encontrada")
+        return pelicula
+
+    # POST crear película (datos de prueba, solo agrega a la lista)
+    @app.post("/crearPelicula")
+    def crear_pelicula(pelicula: dict):
+        peliculas = get_fake_peliculas()
+        nueva_pelicula = {"idPelicula": len(peliculas) + 1, **pelicula}
+        peliculas.append(nueva_pelicula)
+        return nueva_pelicula
+
+    # PUT actualizar película (datos de prueba)
+    @app.put("/actualizaPelicula/{pelicula_id}")
+    def actualizar_pelicula(pelicula_id: int, pelicula: dict):
+        peliculas = get_fake_peliculas()
+        index = next((i for i, p in enumerate(peliculas) if p["idPelicula"] == pelicula_id), None)
+        if index is None:
+            raise HTTPException(status_code=404, detail="Pelicula no encontrada")
+        peliculas[index] = {"idPelicula": pelicula_id, **pelicula}
+        return peliculas[index]
+
+    # DELETE película (datos de prueba)
+    @app.delete("/borrarPelicula/{pelicula_id}")
+    def borrar_pelicula(pelicula_id: int):
+        peliculas = get_fake_peliculas()
+        index = next((i for i, p in enumerate(peliculas) if p["idPelicula"] == pelicula_id), None)
+        if index is None:
+            raise HTTPException(status_code=404, detail="Pelicula no encontrada")
+        peliculas.pop(index)
+        return {"mensaje": "Pelicula eliminada"}
+
+    # POST login (datos de prueba)
+    @app.post("/login")
+    def login(usuario: dict):
+        # En el caso de datos de prueba, solo verifica un login ficticio
+        if usuario.get("nombre") == "admin" and usuario.get("password") == "admin123":
+            return {"mensaje": "Correcto"}
+        raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")

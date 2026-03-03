@@ -13,7 +13,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
   actions: {
     async cargarPeliculas() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/peliculas");
+        const res = await fetch("https://primerospasosfastapi-1.onrender.com/peliculas");
         const data = await res.json();
         this.peliculas = Array.isArray(data) ? data : [];
       } catch (err) {
@@ -23,7 +23,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
 
     async crearPelicula(nuevaPeli) {
       try {
-        const res = await fetch("http://127.0.0.1:8000/crearPelicula", {
+        const res = await fetch("https://primerospasosfastapi-1.onrender.com/crearPelicula", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(nuevaPeli),
@@ -38,7 +38,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
     async actualizarPelicula(peliActualizada) {
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/actualizaPelicula/${peliActualizada.idPelicula}`,
+          `https://primerospasosfastapi-1.onrender.com/actualizaPelicula/${peliActualizada.idPelicula}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -55,7 +55,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
 
     async borrarPelicula(id) {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/borrarPelicula/${id}`, {
+        const res = await fetch(`https://primerospasosfastapi-1.onrender.com/borrarPelicula/${id}`, {
           method: "DELETE",
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
