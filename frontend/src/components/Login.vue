@@ -1,19 +1,60 @@
 <template>
-  <div class="login-container">
-    <h2>Inicia sesion para poder ver el listado de peliculas.</h2>
-    <form @submit.prevent="login">
-      <div class="formulario">
-        <label for="usuario">Usuario:</label>
-        <input type="text" id="usuario" v-model="usuario" placeholder="Introduce tu usuario" required />
+  <div class="min-h-screen flex-center bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <!-- Card Principal -->
+    <div class="card w-full max-w-md mx-4 transform animate-fade-in">
+      <div class="card-header text-center">
+        <h1 class="text-3xl font-bold text-primary-100"> CineDB</h1>
+        <p class="text-primary-100 mt-2">Acceso a tu biblioteca de películas</p>
       </div>
 
-      <div class="formulario">
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" v-model="password" placeholder="Introduce tu contraseña" required />
-      </div>
+      <!-- Body del Formulario -->
+      <div class="card-body">
+        <form @submit.prevent="login" class="space-y-6">
+          <!-- Campo Usuario -->
+          <div class="space-y-2">
+            <label for="usuario" class="flex items-center gap-2">
+              <span>Usuario</span>
+            </label>
+            <input
+              type="text"
+              id="usuario"
+              v-model="usuario"
+              placeholder="Escribe tu usuario"
+              required
+              class="input-field focus:ring-4 focus:ring-primary-200"
+            />
+          </div>
 
-      <button type="submit">Entrar</button>
-    </form>
+          <!-- Campo Contraseña -->
+          <div class="space-y-2">
+            <label for="password" class="flex items-center gap-2">
+              <span>Contraseña</span>
+            </label>
+            <input
+              type="password"
+              id="password"
+              v-model="password"
+              placeholder="Escribe tu contraseña"
+              required
+              class="input-field focus:ring-4 focus:ring-secondary-700"
+            />
+          </div>
+
+          <!-- Botón Entrar -->
+          <button
+            type="submit"
+            class="btn-primary w-full font-bold text-lg py-4 flex items-center justify-center gap-2 group"
+          >
+            <span>Entrar</span>
+          </button>
+
+          <!-- Información -->
+          <p class="text-center text-sm text-gray-600 pt-4 border-t border-gray-200">
+            Usuario demo: <span class="font-semibold text-primary-600">admin</span>
+          </p>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -65,45 +106,6 @@ export default {
 </script>
 
 
-<style>
-.login-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.formulario {
-  margin-bottom: 50px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #50558f;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  transform: scale(1.2);
-  transition: transform 0.3s ease;
-
-
-}
+<style scoped>
+/* Las clases principales están en tailwind.css */
 </style>

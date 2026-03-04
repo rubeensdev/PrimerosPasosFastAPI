@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 
+// Accede a la variable de entorno de la URL de la API
+const API_URL = process.env.VUE_APP_API || 'http://127.0.0.1:8000' 
+
 export const useAlmacenPeliculas = defineStore("peliculas", {
   state: () => ({
     peliculas: [],
@@ -13,7 +16,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
   actions: {
     async cargarPeliculas() {
       try {
-        const res = await fetch("https://primerospasosfastapi-1.onrender.com/peliculas");
+        const res = await fetch(`${API_URL}/peliculas`);
         const data = await res.json();
         this.peliculas = Array.isArray(data) ? data : [];
       } catch (err) {
@@ -23,7 +26,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
 
     async crearPelicula(nuevaPeli) {
       try {
-        const res = await fetch("https://primerospasosfastapi-1.onrender.com/crearPelicula", {
+        const res = await fetch(`${API_URL}/crearPelicula`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(nuevaPeli),
@@ -38,7 +41,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
     async actualizarPelicula(peliActualizada) {
       try {
         const res = await fetch(
-          `https://primerospasosfastapi-1.onrender.com/actualizaPelicula/${peliActualizada.idPelicula}`,
+          `${API_URL}/actualizaPelicula/${peliActualizada.idPelicula}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -55,7 +58,7 @@ export const useAlmacenPeliculas = defineStore("peliculas", {
 
     async borrarPelicula(id) {
       try {
-        const res = await fetch(`https://primerospasosfastapi-1.onrender.com/borrarPelicula/${id}`, {
+        const res = await fetch(`${API_URL}/borrarPelicula/${id}`, {
           method: "DELETE",
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);

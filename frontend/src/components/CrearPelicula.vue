@@ -1,24 +1,87 @@
 <template>
-  <div v-if="show" class="modal-overlay">
-    <div class="modal-content">
-      <button class="close-btn" @click="$emit('close')">X</button>
+  <transition name="modal-fade">
+    <div v-if="show" class="modal-overlay">
+      <div class="modal-content transform transition-all duration-300 animate-slide-in">
+        <!-- Header con Close Button -->
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gradient">Crear Nueva Película</h2>
+          <button
+            @click="$emit('close')"
+            class="text-3xl text-gray-400 hover:text-gray-600 transition-colors transform hover:scale-110"
+          >
+            ✕
+          </button>
+        </div>
 
-      <form @submit.prevent="crear">
-        <h3>Crear nueva película</h3>
+        <!-- Formulario -->
+        <form @submit.prevent="crear" class="space-y-5">
+          <!-- Campo Título -->
+          <div class="space-y-2">
+            <label for="titulo" class="font-semibold text-gray-700">
+              Título
+            </label>
+            <input
+              id="titulo"
+              type="text"
+              v-model="nuevaPelicula.titulo"
+              placeholder="Ej: Inception"
+              required
+              class="input-field focus:ring-4 focus:ring-primary-200"
+            />
+          </div>
 
-        <label>Título</label>
-        <input type="text" v-model="nuevaPelicula.titulo" placeholder="Título" required /><br><br>
+          <!-- Campo Género -->
+          <div class="space-y-2">
+            <label for="genero" class="font-semibold text-gray-700">
+              Género
+            </label>
+            <input
+              id="genero"
+              type="text"
+              v-model="nuevaPelicula.genero"
+              placeholder="Ej: Ciencia Ficción"
+              required
+              class="input-field focus:ring-4 focus:ring-primary-200"
+            />
+          </div>
 
-        <label>Género</label>
-        <input type="text" v-model="nuevaPelicula.genero" placeholder="Género" required /><br><br>
+          <!-- Campo Año -->
+          <div class="space-y-2">
+            <label for="ano" class="font-semibold text-gray-700">
+              Año
+            </label>
+            <input
+              id="ano"
+              type="number"
+              v-model="nuevaPelicula.ano"
+              placeholder="Ej: 2010"
+              min="1900"
+              :max="new Date().getFullYear()"
+              required
+              class="input-field focus:ring-4 focus:ring-primary-200"
+            />
+          </div>
 
-        <label>Año</label>
-        <input type="number" v-model="nuevaPelicula.ano" placeholder="Año" required /><br><br>
-
-        <input type="submit" value="Crear">
-      </form>
+          <!-- Botones -->
+          <div class="flex gap-3 pt-6 border-t border-gray-200">
+            <button
+              type="button"
+              @click="$emit('close')"
+              class="btn-ghost flex-1 py-3"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn-primary flex-1 py-3 font-bold"
+            >
+              Crear Película
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -44,38 +107,19 @@ export default {
 }
 </script>
 
-<style>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+<style scoped>
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-.modal-content {
-  position: relative; /* Para que la X se posicione correctamente */
-  background-color: rgb(223, 221, 221);
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-  color: black;
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  background: transparent;
-  font-size: 20px;
-  cursor: pointer;
-  color: black;
+.modal-fade-enter-to,
+.modal-fade-leave-from {
+  opacity: 1;
 }
 </style>

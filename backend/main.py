@@ -139,7 +139,7 @@ else:
     # DELETE película (datos de prueba)
     @app.delete("/borrarPelicula/{pelicula_id}")
     def borrar_pelicula(pelicula_id: int):
-        peliculas = get_prueba_peliculas()
+        peliculas = get_fake_peliculas()
         index = next((i for i, p in enumerate(peliculas) if p["idPelicula"] == pelicula_id), None)
         if index is None:
             raise HTTPException(status_code=404, detail="Pelicula no encontrada")
