@@ -2,9 +2,9 @@ name: CI - Pruebas y Despliegue en Render
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -21,7 +21,7 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Instalar dependencias
         run: |
@@ -45,7 +45,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Instalar dependencias frontend
         run: |
@@ -70,7 +70,7 @@ jobs:
       - name: Ejecutar pruebas E2E
         run: |
           cd frontend
-          npx playwright test --config ../playwright.config.js --reporter=list
+          npx playwright test --reporter=list
 
   deploy-render:
     name: Desplegar en Render
