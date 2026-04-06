@@ -6,17 +6,20 @@ on:
   pull_request:
     branches: [ main, master ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   tests-backend:
     name: Tests Backend (pytest)
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v4        # ← v4 en vez de v3
+      - name: Checkout codigo
+        uses: actions/checkout@v4
 
       - name: Configurar Python
-        uses: actions/setup-python@v5   # ← v5 en vez de v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -36,19 +39,22 @@ jobs:
     needs: tests-backend
 
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v4        # ← v4
+      - name: Checkout codigo
+        uses: actions/checkout@v4
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v4      
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Instalar dependencias Node
-        run: npm install
-
-      - name: Instalar Playwright y browsers
+      - name: Instalar dependencias frontend
         run: |
+          cd frontend
+          npm install
+
+      - name: Instalar Playwright
+        run: |
+          cd frontend
           npx playwright install --with-deps chromium
 
       - name: Arrancar backend en background
@@ -62,7 +68,9 @@ jobs:
         run: curl http://localhost:8000/
 
       - name: Ejecutar pruebas E2E
-        run: npx playwright test --reporter=list
+        run: |
+          cd frontend
+          npx playwright test --config ../playwright.config.js --reporter=list
 
   deploy-render:
     name: Desplegar en Render
@@ -73,4 +81,4 @@ jobs:
       - name: Trigger deploy en Render
         run: |
           curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
-          echo " Despliegue en Render correcto"
+          echo "Despliegue en Render correcto"
